@@ -1,0 +1,51 @@
+var inlineSource = require('./lib/inlinesource'),
+    gutil = require('gulp-util'),
+    through = require('through2');
+
+const PLUGIN_NAME = 'gulp-inline-source';
+console.log(inlineSource);
+function gulpInlineSource (options) {
+    'use strict';
+    var stream = through.obj(function (file, enc, cb) {
+        var self = this;
+
+        if (file.isNull() || file.isDirectory()) {
+            this.push(file);
+            return cb();
+        }
+
+        if (file.isStream()) {
+            this.emit('error', new gutil.PluginError(PLUGIN_NAME, 'Streaming not supported'));
+            return cb();
+        }
+
+        var fileOptions = {
+          rootpath: file.base,
+          htmlpath: file.path
+        };
+
+        if (options) {
+          for (var i in options) {
+            fileOptions[i] = options[i];
+          }
+        }
+
+        inlineSource(file.contents.toString(), fileOptions, function (err, html) {
+            console.log('===============');
+            if (err) {
+                self.emit('error', new gutil.PluginError(PLUGIN_NAME, err));
+            } else {
+                file.contents = new Buffer(html || '');
+                console.log(html);
+                console.log(file);
+                self.push(file);
+            }
+
+            cb();
+        });
+    });
+
+    return stream;
+}
+
+module.exports = gulpInlineSource;
