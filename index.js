@@ -3,7 +3,7 @@ var inlineSource = require('./lib/inlinesource'),
     through = require('through2');
 
 const PLUGIN_NAME = 'gulp-inline-source';
-console.log(inlineSource);
+
 function gulpInlineSource (options) {
     'use strict';
     var stream = through.obj(function (file, enc, cb) {
@@ -31,13 +31,10 @@ function gulpInlineSource (options) {
         }
 
         inlineSource(file.contents.toString(), fileOptions, function (err, html) {
-            console.log('===============');
             if (err) {
                 self.emit('error', new gutil.PluginError(PLUGIN_NAME, err));
             } else {
                 file.contents = new Buffer(html || '');
-                console.log(html);
-                console.log(file);
                 self.push(file);
             }
 

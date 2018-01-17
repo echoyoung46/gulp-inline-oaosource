@@ -9,8 +9,7 @@ var inlinesource = require('./index');
 // var inlinesource = require('gulp-inline-source');
 var htmlminify = require('gulp-htmlmin');
 var minifyInline = require('gulp-minify-inline');
-console.log(inlinesource);
-console.log(111111);
+
 gulp.task('inlinesource', function () {
   return gulp.src('./test/index.html')
     .pipe(plugins.charset({

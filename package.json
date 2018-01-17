@@ -1,5 +1,5 @@
 {
-  "name": "gulp-inline-oaosource",
+  "name": "@tencent/gulp-inline-oaosource",
   "version": "1.0.0",
   "description": "Inline all <script>, <link> and <img> tags that contain the inline attribute include local and remote source.",
   "main": "index.js",
